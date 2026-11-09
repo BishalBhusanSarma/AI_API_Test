@@ -1,0 +1,26 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Local virtual environments
+.venv/
+venv/
+ENV/
+
+# Local SQLite database and journal files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.sqlite-journal
+
+# Generated AI test outputs
+/test/ai_testing/actual_responses.json
+/test/ai_testing/result.json
+
+# Editor and operating system files
+.DS_Store
+.idea/
+.vscode/

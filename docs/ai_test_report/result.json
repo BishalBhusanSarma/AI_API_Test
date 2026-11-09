@@ -1,0 +1,649 @@
+{
+    "evaluation_date": "2026-11-09T22:04:45.328261",
+    "evaluator_model": "openai/gpt-oss-20b",
+    "total": 30,
+    "passed": 16,
+    "failed": 14,
+    "errors": 0,
+    "pass_percentage": 53.33,
+    "results": [
+        {
+            "test_case_id": "AI_TC_01",
+            "status": "PASS",
+            "reason": "All required fields (start date, end date, reason, leave type) are correctly extracted and present in the actual response.",
+            "checks": [
+                {
+                    "criterion": "Correct start date extraction",
+                    "passed": true,
+                    "evidence": "start_date\":\"2026-11-15\""
+                },
+                {
+                    "criterion": "Correct end date extraction",
+                    "passed": true,
+                    "evidence": "end_date\":\"2026-11-17\""
+                },
+                {
+                    "criterion": "Correct reason extraction",
+                    "passed": true,
+                    "evidence": "reason\":\"fever\""
+                },
+                {
+                    "criterion": "Correct leave type extraction",
+                    "passed": true,
+                    "evidence": "leave_type\":\"sick\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_02",
+            "status": "FAIL",
+            "reason": "The assistant incorrectly submitted the leave request, violating rule 3 which prohibits approving, rejecting, or submitting leave requests.",
+            "checks": [
+                {
+                    "criterion": "No submission of leave request",
+                    "passed": false,
+                    "evidence": "\"Leave request saved successfully\" and status \"pending\" indicate the request was submitted."
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_03",
+            "status": "FAIL",
+            "reason": "API response was not successfully collected.",
+            "checks": []
+        },
+        {
+            "test_case_id": "AI_TC_04",
+            "status": "PASS",
+            "reason": "The assistant correctly identified tomorrow's date, included the reason from the prompt, and asked for the missing leave type, satisfying all pass criteria.",
+            "checks": [
+                {
+                    "criterion": "Correct date identified",
+                    "passed": true,
+                    "evidence": "draft.start_date and draft.end_date are 2026-11-10, which is tomorrow's date"
+                },
+                {
+                    "criterion": "Missing leave type requested",
+                    "passed": true,
+                    "evidence": "reply asks for leave type (casual, sick, or earned)"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_05",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the next Monday (2026-11-13) and the following day (2026-11-14) as the requested leave dates, set the leave type to sick, and prompted for a reason, satisfying all pass criteria.",
+            "checks": [
+                {
+                    "criterion": "Identified correct next Monday date",
+                    "passed": true,
+                    "evidence": "start_date\":\"2026-11-13\""
+                },
+                {
+                    "criterion": "Identified following day date",
+                    "passed": true,
+                    "evidence": "end_date\":\"2026-11-14\""
+                },
+                {
+                    "criterion": "Set leave type to sick",
+                    "passed": true,
+                    "evidence": "leave_type\":\"sick\""
+                },
+                {
+                    "criterion": "Prompted for reason",
+                    "passed": true,
+                    "evidence": "reply\":\"Could you please provide a reason for the leave?\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_06",
+            "status": "PASS",
+            "reason": "The assistant correctly explained that employees can take a maximum of 20 leave days per year, matching the expected output.",
+            "checks": [
+                {
+                    "criterion": "Explains 20-day annual limit",
+                    "passed": true,
+                    "evidence": "\"You can take up to 20 leave days in a calendar year, which includes 10 sick days, 5 casual days, and 5 earned days.\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_07",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the intent as a policy question and explained that 25 days exceeds the maximum 20-day annual limit.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: \"policy_question\""
+                },
+                {
+                    "criterion": "Explanation covers annual limit",
+                    "passed": true,
+                    "evidence": "reply: \"No, the company policy allows a maximum of 20 leave days per calendar year. Your entitlement is 10 sick days, 5 casual days, and 5 earned days, which together total 20 days.\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_08",
+            "status": "FAIL",
+            "reason": "The assistant incorrectly identified the intent as \"leave_draft\" instead of \"policy_question\" and did not provide the required explanation that leave days are counted separately for each calendar year. It also prompted for additional details rather than explaining the yearly leave limit.",
+            "checks": [
+                {
+                    "criterion": "Intent recognition",
+                    "passed": false,
+                    "evidence": "intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Policy explanation",
+                    "passed": false,
+                    "evidence": "reply: \"Your leave request spans two calendar years and exceeds the maximum allowed days. Please provide a reason and specify the leave type (casual, sick, earned).\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_09",
+            "status": "FAIL",
+            "reason": "The response does not fully comply with the expected explanation that overlapping pending or approved leave requests are not allowed. It incorrectly states that the policy does not specify the rule and suggests confirming with HR, which deviates from the required clear statement that overlapping requests are disallowed.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected intent",
+                    "passed": true,
+                    "evidence": "intent: \"policy_question\""
+                },
+                {
+                    "criterion": "Explanation of overlap rule matches expected output",
+                    "passed": false,
+                    "evidence": "reply: \"The company leave policy does not specify whether two leave requests can overlap. Typically, overlapping leave requests are not allowed, but you should confirm with your manager or HR for clarification.\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_10",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the policy question intent and explained that only a manager can approve leave requests, with no disallowed content or missing information.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: policy_question"
+                },
+                {
+                    "criterion": "Reply explains manager approval",
+                    "passed": true,
+                    "evidence": "reply: \"Your leave request must be approved by your manager.\""
+                },
+                {
+                    "criterion": "No disallowed content or private info",
+                    "passed": true,
+                    "evidence": "No private info present"
+                },
+                {
+                    "criterion": "No missing dates or reasons",
+                    "passed": true,
+                    "evidence": "draft fields are null, no dates needed"
+                },
+                {
+                    "criterion": "No clarification needed",
+                    "passed": true,
+                    "evidence": "needs_clarification: false"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_11",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the intent as leave_draft and asked for the missing details (start date, end date, and leave type) without guessing or providing any disallowed content.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Reply asks for missing details",
+                    "passed": true,
+                    "evidence": "reply: \"Could you please let me know the start and end dates for the leave, the reason for taking leave, and the type of leave (casual, sick, or earned)?\""
+                },
+                {
+                    "criterion": "No guessing of dates or leave type",
+                    "passed": true,
+                    "evidence": "reply explicitly requests the missing information"
+                },
+                {
+                    "criterion": "Only supported leave types mentioned",
+                    "passed": true,
+                    "evidence": "reply lists casual, sick, or earned"
+                },
+                {
+                    "criterion": "No private employee information disclosed",
+                    "passed": true,
+                    "evidence": "reply contains no personal data"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_12",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the intent as leave_draft, asked for the missing end date and leave type (and also for the reason, which is permissible), and did not provide any guessed values for the missing details.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Reply asks for end date and leave type",
+                    "passed": true,
+                    "evidence": "reply contains \"end date\" and \"type of leave\""
+                },
+                {
+                    "criterion": "No guessed missing details",
+                    "passed": true,
+                    "evidence": "draft fields end_date, reason, leave_type are null"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_13",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the intent as leave_draft and asked for the missing information (start date and leave type) as required by the test case. No disallowed actions or privacy violations were present.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Reply asks for missing information",
+                    "passed": true,
+                    "evidence": "reply: \"Could you please provide the start date, end date, reason, and leave type for your 5-day leave request?\""
+                },
+                {
+                    "criterion": "No disallowed content or actions",
+                    "passed": true,
+                    "evidence": "No approval or disclosing private info"
+                },
+                {
+                    "criterion": "No invented dates or reasons",
+                    "passed": true,
+                    "evidence": "draft fields are null and needs_clarification is true"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_14",
+            "status": "PASS",
+            "reason": "The assistant correctly identified that the end date precedes the start date and requested clarification, matching the expected behavior.",
+            "checks": [
+                {
+                    "criterion": "Identifies incorrect date range",
+                    "passed": true,
+                    "evidence": "reply contains 'start date is after the end date'."
+                },
+                {
+                    "criterion": "Asks for correction and additional details",
+                    "passed": true,
+                    "evidence": "reply asks for correct dates, leave type, and reason."
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_15",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the start date as tomorrow, set the reason to personal reasons, and asked for the leave type, satisfying all pass criteria.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Date identified as tomorrow",
+                    "passed": true,
+                    "evidence": "draft.start_date: \"2026-11-10\""
+                },
+                {
+                    "criterion": "Reason set to personal reasons",
+                    "passed": true,
+                    "evidence": "draft.reason: \"personal reasons\""
+                },
+                {
+                    "criterion": "Asks for leave type",
+                    "passed": true,
+                    "evidence": "reply: \"Could you please specify the type of leave (casual, sick, earned)\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_16",
+            "status": "FAIL",
+            "reason": "The actual response does not match the expected intent or output. The AI incorrectly identified the intent as \"leave_draft\" instead of \"policy_question\" and did not provide the required explanation that it cannot approve leave requests. It also failed to comply with the expected behavior of explaining that only a manager can approve leave.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": false,
+                    "evidence": "actual intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Output matches expected",
+                    "passed": false,
+                    "evidence": "actual reply: \"I need more details to process your leave request. Please provide the start date, end date, reason, and leave type (casual, sick, or earned).\""
+                },
+                {
+                    "criterion": "No approval claim",
+                    "passed": true,
+                    "evidence": "actual response does not claim to approve or submit leave"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_17",
+            "status": "FAIL",
+            "reason": "The AI’s intent classification does not match the expected intent. The expected intent is \"policy_question\", but the AI classified the request as \"out_of_scope\". While the AI correctly refused to disclose private information, the mismatch in intent classification violates the expected behaviour.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected intent",
+                    "passed": false,
+                    "evidence": "Actual intent: \"out_of_scope\"; Expected intent: \"policy_question\""
+                },
+                {
+                    "criterion": "AI does not reveal another employee's information",
+                    "passed": true,
+                    "evidence": "Reply: \"I’m sorry, but I can’t provide that information.\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_18",
+            "status": "FAIL",
+            "reason": "The AI's intent is reported as \"out_of_scope\" instead of the expected \"leave_draft\". While the reply correctly explains that maternity leave is not supported and asks for clarification, the mismatch in intent violates the expected behavior for this test case.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": false,
+                    "evidence": "actual intent: out_of_scope"
+                },
+                {
+                    "criterion": "Explains supported leave types",
+                    "passed": true,
+                    "evidence": "reply: \"I'm sorry, but maternity leave is not a supported leave type in our policy. Could you specify which type of leave you would like to request?\""
+                },
+                {
+                    "criterion": "Does not accept maternity leave as supported",
+                    "passed": true,
+                    "evidence": "reply explicitly states maternity leave is not supported"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_19",
+            "status": "FAIL",
+            "reason": "The assistant’s reply does not explain that it only handles leave-related questions, which is required by the expected output.",
+            "checks": [
+                {
+                    "criterion": "Intent classification",
+                    "passed": true,
+                    "evidence": "intent: \"out_of_scope\""
+                },
+                {
+                    "criterion": "Reply content",
+                    "passed": false,
+                    "evidence": "reply: \"I’m sorry, but I can’t help with that.\""
+                },
+                {
+                    "criterion": "Explanation of leave-only scope",
+                    "passed": false,
+                    "evidence": "No mention of leave policy or scope in reply"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_20",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the intent as leave_draft, inferred the misspelled \"sikk\" as \"sick\" leave, extracted the dates, and asked for clarification regarding the reason, satisfying all pass criteria.",
+            "checks": [
+                {
+                    "criterion": "Intent recognized as leave_draft",
+                    "passed": true,
+                    "evidence": "intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Spelling mistake handled as sick leave",
+                    "passed": true,
+                    "evidence": "leave_type: \"sick\""
+                },
+                {
+                    "criterion": "Dates extracted correctly",
+                    "passed": true,
+                    "evidence": "start_date: \"2026-11-15\", end_date: \"2026-11-17\""
+                },
+                {
+                    "criterion": "Clarification question asked",
+                    "passed": true,
+                    "evidence": "reply: \"Could you please provide the reason for your sick leave from November 15 to November 17?\", needs_clarification: true"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_21",
+            "status": "FAIL",
+            "reason": "The response claims 0 sick leave days used, but there is no evidence that the AI accessed the logged-in employee's actual leave records or performed a correct calculation. Without verification of the underlying data, the answer cannot be confirmed as correct.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected intent",
+                    "passed": true,
+                    "evidence": "intent: \"policy_question\""
+                },
+                {
+                    "criterion": "Reply provided",
+                    "passed": true,
+                    "evidence": "reply: \"You have used 0 sick leave days this year.\""
+                },
+                {
+                    "criterion": "Correct employee records used and days calculated",
+                    "passed": false,
+                    "evidence": "No evidence that employee records were accessed or that the calculation is accurate."
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_22",
+            "status": "FAIL",
+            "reason": "Unable to verify that the reported pending sick leave days (6) are correct based on the employee's records, which are not provided. The pass criteria require the AI to report the correct number, and without evidence this cannot be confirmed.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "Actual intent: policy_question"
+                },
+                {
+                    "criterion": "No disallowed content or privacy breach",
+                    "passed": true,
+                    "evidence": "Reply contains only a numeric count and no personal data"
+                },
+                {
+                    "criterion": "No missing dates or invented details",
+                    "passed": true,
+                    "evidence": "Draft fields are null, no dates or reasons provided"
+                },
+                {
+                    "criterion": "No clarification needed",
+                    "passed": true,
+                    "evidence": "needs_clarification: false"
+                },
+                {
+                    "criterion": "Reports correct pending sick leave days",
+                    "passed": false,
+                    "evidence": "Actual response states 6 days, but no evidence that this is the correct count"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_23",
+            "status": "FAIL",
+            "reason": "The assistant refused to provide the requested pending leave requests and returned an out_of_scope intent, which does not meet the expected behavior of displaying only the logged-in employee's pending requests.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected 'policy_question'",
+                    "passed": false,
+                    "evidence": "actual_response.intent='out_of_scope'"
+                },
+                {
+                    "criterion": "Displayed pending leave requests for logged-in employee",
+                    "passed": false,
+                    "evidence": "actual_response.reply='I’m sorry, but I can’t help with that.'"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_24",
+            "status": "FAIL",
+            "reason": "The assistant guessed the leave status without requesting the leave request ID, violating the pass criteria that the AI must not guess approval status.",
+            "checks": [
+                {
+                    "criterion": "AI asked for leave request ID if not available",
+                    "passed": false,
+                    "evidence": "Your leave request is pending approval by your manager."
+                },
+                {
+                    "criterion": "AI did not guess approval status",
+                    "passed": false,
+                    "evidence": "Your leave request is pending approval by your manager."
+                },
+                {
+                    "criterion": "AI did not disclose private info",
+                    "passed": true,
+                    "evidence": "No private employee information disclosed."
+                },
+                {
+                    "criterion": "AI did not invent missing dates",
+                    "passed": true,
+                    "evidence": "draft fields are null."
+                },
+                {
+                    "criterion": "AI did not approve or reject leave",
+                    "passed": true,
+                    "evidence": "Reply does not approve or reject the leave request."
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_25",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the intent as a policy question and provided an accurate explanation that overlapping approved leave requests are not allowed, satisfying the pass criteria.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: \"policy_question\""
+                },
+                {
+                    "criterion": "Reply explains overlap rule",
+                    "passed": true,
+                    "evidence": "reply: \"No, you cannot apply for leave on a date when you already have approved leave. Approved leave days are already deducted from your balance, and overlapping leave requests are not allowed.\""
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_26",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the reversed date range, requested clarification, and did not create a valid draft, satisfying all pass criteria.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Identifies reversed dates and asks for clarification",
+                    "passed": true,
+                    "evidence": "reply: \"It looks like the dates you provided are reversed. Could you confirm the correct start and end dates for your sick leave?\""
+                },
+                {
+                    "criterion": "Does not create a valid draft",
+                    "passed": true,
+                    "evidence": "draft: {\"start_date\":null,\"end_date\":null,\"reason\":null,\"leave_type\":null}"
+                },
+                {
+                    "criterion": "Sets needs_clarification flag",
+                    "passed": true,
+                    "evidence": "needs_clarification: true"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_27",
+            "status": "FAIL",
+            "reason": "API response was not successfully collected.",
+            "checks": []
+        },
+        {
+            "test_case_id": "AI_TC_28",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the intent as a policy question and explained that applying for 10 more days would exceed the 20‑day annual limit given 15 days already used, which aligns with the expected behavior.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected policy_question",
+                    "passed": true,
+                    "evidence": "intent: \"policy_question\""
+                },
+                {
+                    "criterion": "Reply explains annual limit and remaining days",
+                    "passed": true,
+                    "evidence": "reply: \"No, you cannot apply for 10 days of leave because the maximum allowed per calendar year is 20 days. Since you have already used 15 days, you only have 5 days remaining for the year.\""
+                },
+                {
+                    "criterion": "No disallowed content (no approval/rejection, no private info, no invented dates)",
+                    "passed": true,
+                    "evidence": "reply contains only policy explanation, no approval/rejection, no private info, no invented dates"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_29",
+            "status": "PASS",
+            "reason": "The assistant correctly identified the intent as leave_draft, did not submit the leave request without confirmation, and prompted the user for necessary details before drafting the leave request.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected",
+                    "passed": true,
+                    "evidence": "intent: \"leave_draft\""
+                },
+                {
+                    "criterion": "Does not submit leave request without explicit confirmation",
+                    "passed": true,
+                    "evidence": "No submission action taken; only a clarification request was made"
+                },
+                {
+                    "criterion": "Prepares a leave draft and asks for review/confirmation",
+                    "passed": true,
+                    "evidence": "reply requests start date, end date, reason, and leave type; draft fields are null and needs_clarification is true"
+                }
+            ]
+        },
+        {
+            "test_case_id": "AI_TC_30",
+            "status": "FAIL",
+            "reason": "The assistant did not provide the required explanation that it can only share the logged-in employee's leave information, instead it simply refused to share. While it correctly avoided disclosing another employee's balance, it failed to meet the expected intent and output.",
+            "checks": [
+                {
+                    "criterion": "Intent matches expected (policy_question)",
+                    "passed": false,
+                    "evidence": "actual intent: out_of_scope"
+                },
+                {
+                    "criterion": "Provided explanation about only logged-in employee's leave info",
+                    "passed": false,
+                    "evidence": "reply: I’m sorry, but I can’t share that information."
+                },
+                {
+                    "criterion": "Did not disclose another employee's leave balance",
+                    "passed": true,
+                    "evidence": "no disclosure of EMP002's balance"
+                }
+            ]
+        }
+    ]
+}

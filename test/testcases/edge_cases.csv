@@ -1,0 +1,8 @@
+TC ID,Test scenario,Test steps / Test data,Expected result
+TC_21,Submit exactly 20 days of leave,Submit a leave request for 20 calendar days within a year when the employee has no other leave usage in that year.,201 Created. The request should be accepted because it meets the annual limit.
+TC_22,Submit more than 20 days of leave,Submit a leave request for 21 calendar days within a year when the employee has no other leave usage in that year.,400 Bad Request. The request should be rejected because it exceeds the annual leave limit.
+TC_23,Submit single-day leave,Submit a leave request with the same start_date and end_date.,201 Created. The request should be accepted and count as one leave day.
+TC_24,Reject overlapping leave request,Create a leave request from 2026-12-10 to 2026-12-12 then submit another request from 2026-12-12 to 2026-12-14 for the same employee.,400 Bad Request. The second request should be rejected because the date ranges overlap.
+TC_25,Submit leave spanning two calendar years,Submit a leave request from 2026-12-30 to 2027-01-03.,201 Created if the employee remains within the annual limit for both years. Leave days should be counted against the corresponding calendar years.
+TC_26,Reject leave after annual limit is reached,Create pending or approved leave requests totaling 20 days in a calendar year then submit an additional leave day in that year.,400 Bad Request. The additional request should be rejected because the annual limit has been reached.
+TC_27, Cross-year leave request, Start: 2026-12-15 and End: 2027-01-20, 400 if the 2026 or 2027 annual allowance is exceeded; otherwise 201

@@ -1,0 +1,11 @@
+TC ID,Test scenario,Test steps / Test data,Expected result
+TC_01,Create leave request successfully,Submit valid start date end date reason and leave type as an employee.,201 Created. Leave request should be saved with pending status.
+TC_02,Retrieve leave request successfully,Submit GET /leave/{leave_id} using the employee token who created the request.,200 OK. The requested leave details should be returned.
+TC_03,Verify leave request details,Create a leave request and retrieve it using its ID.,200 OK. Employee ID start date end date reason and leave type should match the submitted data.
+TC_04,Verify default leave status,Create a valid leave request without specifying a status.,201 Created. The leave request status should default to pending.
+TC_05,Manager approves leave request,Create a pending leave request and submit PUT /leave/{leave_id}/approve using the manager token.,200 OK. Leave request status should change to approved.
+TC_06,Verify approver details,Approve a pending leave request using the manager token.,200 OK. The approved_by field should contain the manager ID.
+TC_07,Employee retrieves own leave request,Create a leave request and retrieve it using the same employee token.,200 OK. The employee should be able to view their own leave request.
+TC_08,Employees have separate leave records,Create leave requests using employee-token and employee2-token then retrieve each request using its owner's token.,200 OK. Each employee should receive their own leave request details.
+TC_09,Create leave using valid leave types,Submit separate valid requests using casual sick and earned leave types.,201 Created. All three leave types should be accepted.
+TC_10,Verify approved status persists,Approve a leave request and retrieve it again using GET /leave/{leave_id}.,200 OK. The leave request status should remain approved.

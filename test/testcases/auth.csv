@@ -1,0 +1,5 @@
+TC ID,Test scenario,Test steps / Test data,Expected result
+TC_28,Reject request without authentication,Submit POST /leave without an Authorization header.,403 Forbidden. The API should reject the unauthenticated request.
+TC_29,Reject request with invalid token,Submit POST /leave with Authorization: Bearer invalid-token.,401 Unauthorized. The API should reject the invalid token.
+TC_30,Manager submits a leave request,Submit a valid POST /leave request using the manager token.,201 Created. The request should be created if the API allows any authenticated user to submit leave requests.
+TC_31,Employee cannot access manager approval function,Submit PUT /leave/{leave_id}/approve using an employee token for an existing pending leave request.,403 Forbidden. Only a manager should be allowed to approve leave requests.

@@ -1,0 +1,11 @@
+TC ID,Test scenario,Test steps / Test data,Expected result
+TC_11,Reject leave with end date before start date,Submit start_date 2026-12-10 and end_date 2026-12-05.,422 Unprocessable Entity. The request should be rejected because the end date is earlier than the start date.
+TC_12,Reject request with missing start date,Submit a leave request without the start_date field.,422 Unprocessable Entity. The request should be rejected with a validation error.
+TC_13,Reject request with missing end date,Submit a leave request without the end_date field.,422 Unprocessable Entity. The request should be rejected with a validation error.
+TC_14,Reject request with missing reason,Submit a leave request without the reason field.,422 Unprocessable Entity. The request should be rejected with a validation error.
+TC_15,Reject request with invalid leave type,Submit a leave request with leave_type as maternity.,422 Unprocessable Entity. The request should be rejected because the leave type is unsupported.
+TC_16,Reject request with empty reason,Submit a leave request with reason as an empty string.,422 Unprocessable Entity. The request should be rejected because the reason is shorter than the minimum length.
+TC_17,Employee cannot approve leave request,Create a pending leave request and submit PUT /leave/{leave_id}/approve using the employee token.,403 Forbidden. The employee should not be allowed to approve leave requests.
+TC_18,Employee cannot view another employee's leave request,Create a leave request using employee-token and attempt to retrieve it using employee2-token.,403 Forbidden. The employee should not be allowed to view another employee's leave request.
+TC_19,Retrieve non-existent leave request,Submit GET /leave/999999 using a valid employee token when that ID does not exist.,404 Not Found. The API should return a leave request not found error.
+TC_20,Approve non-existent leave request,Submit PUT /leave/999999/approve using the manager token when that ID does not exist.,404 Not Found. The API should return a leave request not found error.
