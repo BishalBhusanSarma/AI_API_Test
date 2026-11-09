@@ -8,6 +8,8 @@ __pycache__/
 .venv/
 venv/
 ENV/
+.env/
+mock_api/.env
 
 # Local SQLite database and journal files
 *.db

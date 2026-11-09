@@ -44,6 +44,7 @@ def ai_chat(
     # Check API key
     api_key = GROQ_API_KEY
 
+
     if not api_key:
         raise HTTPException(
             status_code=500,

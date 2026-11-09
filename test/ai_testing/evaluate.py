@@ -6,8 +6,10 @@ from datetime import datetime
 from groq import Groq
 import os
 import dotenv
+
+# Configuration
 dotenv.load_dotenv()
-GROQ_API_KEY = os.getenv("GROQ_API_1")
+GROQ_API_KEY = os.getenv("GROQ_API_2")
 
 MODEL = "openai/gpt-oss-20b"
 
