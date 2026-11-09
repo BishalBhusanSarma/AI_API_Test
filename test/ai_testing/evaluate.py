@@ -4,9 +4,10 @@ import json
 import re
 from datetime import datetime
 from groq import Groq
-
-# Configuration
-GROQ_API_KEY = ""
+import os
+import dotenv
+dotenv.load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_1")
 
 MODEL = "openai/gpt-oss-20b"
 

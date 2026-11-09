@@ -12,7 +12,11 @@ from groq import Groq
 from db import get_db
 from models import LeaveRequest
 from auth import get_current_user
+import dotenv
 
+
+dotenv.load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_1")
 
 router = APIRouter(prefix="/ai", tags=["AI Assistant"])
 
@@ -38,8 +42,7 @@ def ai_chat(
 ):
 
     # Check API key
-    api_key = ""
-
+    api_key = GROQ_API_KEY
 
     if not api_key:
         raise HTTPException(
